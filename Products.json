@@ -1,0 +1,33 @@
+[
+  {
+    "title": "Picadillo",
+    "description": "Swift",
+    "price": 500,
+    "thumbnail": "https://www.swiftdirectoacasa.com.ar/media/catalog/product/p/i/picadillofrente_1.png?optimize=high&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700&format=jpeg&dpr=1%201x",
+    "code": "007",
+    "stock": 19,
+    "id": 1
+  },
+  {
+    "title": "Mermelada",
+    "description": "Arcor de Naranja",
+    "price": 500000,
+    "thumbnail": "https://jumboargentina.vtexassets.com/arquivos/ids/667311-1200-auto?v=637677706577430000&width=1200&height=auto&aspect=true",
+    "code": "001",
+    "stock": 25,
+    "status": true,
+    "category": "Untables",
+    "id": 2
+  },
+  {
+    "title": "Mermelada",
+    "description": "Arcor de Ciruela",
+    "price": 1500,
+    "thumbnail": "https://arcorencasa.com/wp-content/uploads/2023/07/20230718-13220.jpg",
+    "code": "003",
+    "stock": 15,
+    "status": true,
+    "category": "Untables",
+    "id": 3
+  }
+]
