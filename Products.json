@@ -6,6 +6,8 @@
     "thumbnail": "https://www.swiftdirectoacasa.com.ar/media/catalog/product/p/i/picadillofrente_1.png?optimize=high&bg-color=255,255,255&fit=bounds&height=700&width=700&canvas=700:700&format=jpeg&dpr=1%201x",
     "code": "007",
     "stock": 19,
+    "status": true,
+    "category": "Untables",
     "id": 1
   },
   {
@@ -29,5 +31,27 @@
     "status": true,
     "category": "Untables",
     "id": 3
+  },
+  {
+    "title": "Jugo",
+    "description": "Clight de Pera",
+    "price": 700,
+    "thumbnail": "https://statics.dinoonline.com.ar/imagenes/full_600x600_ma/3051996_f.jpg",
+    "code": "004",
+    "stock": 20,
+    "status": true,
+    "category": "Bebidas",
+    "id": 4
+  },
+  {
+    "title": "Galletas",
+    "description": "Surtido Bagley",
+    "price": 2500,
+    "thumbnail": "https://carrefourar.vtexassets.com/arquivos/ids/318906-1200-auto?v=638181154854500000&width=1200&height=auto&aspect=true",
+    "code": "006",
+    "stock": 115,
+    "status": true,
+    "category": "Snacks",
+    "id": 5
   }
 ]
