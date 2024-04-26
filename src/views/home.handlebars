@@ -1,0 +1,8 @@
+    <h1>Listado de Productos</h1>
+    {{#each products}}
+    <div>
+        <h2>{{this.title}} {{this.description}}</h2>
+        <img src="{{this.thumbnail}}" width="100" height="100" alt="">
+        <p>${{this.price}}- - -ID:{{this.id}}</p>
+    </div>
+    {{/each}}

@@ -53,5 +53,27 @@
     "status": true,
     "category": "Snacks",
     "id": 5
+  },
+  {
+    "title": "Jugo",
+    "description": "Clight de Naranja",
+    "price": 700,
+    "thumbnail": "https://ardiaprod.vtexassets.com/arquivos/ids/294330-1200-auto?v=638458628813870000&width=1200&height=auto&aspect=true",
+    "code": "008",
+    "stock": 15,
+    "status": true,
+    "category": "Bebidas",
+    "id": 6
+  },
+  {
+    "title": "Atun",
+    "description": "La Campañola",
+    "price": 1500,
+    "thumbnail": "https://http2.mlstatic.com/D_NQ_NP_969520-MLU70624090252_072023-O.webp",
+    "code": "00247",
+    "stock": 20,
+    "status": true,
+    "category": "Enlatados",
+    "id": 9
   }
 ]

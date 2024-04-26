@@ -2,7 +2,8 @@
   "name": "proyectofinal-backend-barboza",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.cjs",
+  "type": "commonjs",
   "scripts": {
     "start": "node --watch src/app.js"
   },
@@ -10,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
+    "socket.io": "^4.7.5"
   }
 }
