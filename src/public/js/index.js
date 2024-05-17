@@ -25,9 +25,9 @@ document.getElementById('btn-send').addEventListener('click', () => {
 
 document.getElementById('btn-del').addEventListener('click', () => {
 
-    const productId = parseInt(document.getElementById('id').value);    
+    const productId = document.getElementById('id').value;    
 
-    socket.emit('eliminarProducto', productId);
+    socket.emit('eliminarProducto', {_id:productId});
     ;})
 
 
@@ -54,6 +54,9 @@ socket.on('actualizarProductos', () => {
         })
     });
 
+
+    
+  
 
 
 

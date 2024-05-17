@@ -1,13 +1,13 @@
 const express = require("express")
 const router = express.Router()
-const ProductManager = require('../productManager.js')
+const productsModel = require ("../DAO/models/products.model.js")
 
 
-const manager = new ProductManager()
 
-router.get('/products',async (req ,res)=>{
+
+router.get('/',async (req ,res)=>{
     try{
-        let products = await manager.getProducts()
+        let products = await productsModel.find()
         let limit = parseInt(req.query.limit)
         let limitedProducts = [...products]
         if( limit > 0){
@@ -23,60 +23,68 @@ router.get('/products',async (req ,res)=>{
 })
 
 
-router.get('/products/:pid',async (req ,res)=>{
+router.get('/:pid',async (req ,res)=>{
     try{
-        const productId = parseInt(req.params.pid);
-        const product = await manager.getProductById(productId);
-        res.json(product)
+        const {pid} = req.params;
+        const result = await productsModel.findById({_id:pid});
+        res.send({ result: "success", payload: result })
 
     }catch(error){
         res.send("ID inexistente")
 
     }
     
-})
+}) 
 
 
-router.post('/products', async (req , res)=>{
-    try{
-        const newProduct = req.body
-        await manager.addProduct(newProduct)
-        res.send("Producto agregado exitosamente")
+router.post('/', async (req, res) => {
+    try {
+        const { title, description, price, thumbnail, code, stock, status, category } = req.body;
+        const result = await productsModel.create({
+            title,
+            description,
+            price,
+            thumbnail,
+            code,
+            stock,
+            status,
+            category
+        });
 
-    }catch(error){
-        res.send("Debe ingresar todos lo campos")
+        res.send({ result: "success", payload: result });
 
+    } catch (error) {
+        
     }
-})
+});
 
-
-
-router.put('/products/:pid', async (req , res)=>{
+ 
+router.put('/:pid', async (req , res)=>{
     try{
-        const productId = parseInt(req.params.pid)
-        await manager.getProductById(productId)        
-        const updatedProduct = req.body
-        await manager.updateProduct(productId , updatedProduct)
-        res.send("Se modifico correctamente el articulo")
+        
+        const {pid} = req.params
+        const productToReplace = req.body
+        const result = await productsModel.updateOne({_id:pid},productToReplace)
+        res.send({ result: "success", payload: result })
     }catch(error){
         res.send("ID producto inexistente")
     }
 })
 
 
-router.delete('/products/:pid', async (req,res)=>{
+router.delete('/:pid', async (req,res)=>{
     try{
-        const productId = parseInt(req.params.pid)
-        await manager.getProductById(productId)
-        await manager.deleteProduct(productId)
-        res.send("Producto eliminado")
+        let {pid} = req.params
+        let result = await productsModel.deleteOne({ _id:pid });
+        res.send({ result: "success", payload: result })
+        
     }catch(error){
         res.send("producto inexistente")
     }
 })
 
 
-
+ 
 
 
 

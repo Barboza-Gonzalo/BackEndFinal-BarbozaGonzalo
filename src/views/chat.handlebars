@@ -1,0 +1,49 @@
+
+
+
+
+
+ <h1>Chat</h1>
+    <div>
+        <input type="text" id="chatBox" placeholder="Escribe tu mensaje...">
+        <button id="btnSendMes">Enviar</button>
+    </div>
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script   >
+      let user 
+
+    Swal.fire({
+        title:"Identificate",
+        input:"text",
+        text:"ingrese su email",
+
+        inputValidator:(value)=>{
+            return !value && "Necesitas identificarte para enviar mensaje"
+
+        }
+
+    }).then(result=>{
+        user = result.value
+    })
+
+    const socket = io();
+
+    document.getElementById("btnSendMes").addEventListener("click", () => {
+        const message = document.getElementById("chatBox").value;
+        if (message.trim()) {
+            const newMessage = { user: user, message: message };
+            socket.emit("newMessage", newMessage);
+            document.getElementById("chatBox").value = "";
+        }
+    });
+
+</script>

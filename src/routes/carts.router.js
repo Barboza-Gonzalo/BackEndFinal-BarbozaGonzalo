@@ -1,19 +1,15 @@
 const express = require("express")
 const router = express.Router()
-const CartManager = require('../cartManager.js')
-const ProductManager = require('../productManager.js')
+const cartsModel = require("../DAO/models/carts.model.js")
+const productsModel = require("../DAO/models/products.model.js")
 
-
-const manager = new CartManager()
-const managerP = new ProductManager()
-
-
-router.post('/carts', async (req,res)=>{
-    try{
-        const newCart = req.body
-        await manager.addCart(newCart)
-        res.send("Carrito creado exitosamente")
-
+router.post('/', async (req,res)=>{
+    try{        
+        const newCart = new cartsModel({
+            products: [] 
+        });    
+        const savedCart = await newCart.save();
+        res.send({ result: "success", payload: savedCart });
 
     }catch(error){
         res.send("Error al crear nuevo carrito de compras")
@@ -22,11 +18,12 @@ router.post('/carts', async (req,res)=>{
 
 
 
-router.get('/carts/:cid', async (req,res)=>{
+router.get('/:cid', async (req,res)=>{
     try{
-        const cartId = parseInt(req.params.cid);
-        const cart = await manager.getCartById(cartId);
-        res.json(cart)
+        let {cid} = req.params
+        let result = await cartsModel.findById({ _id:cid})
+        res.send({ result: "success", payload: result })
+     
 
     }catch(error){
         res.send("ID carrito inexistente")
@@ -35,21 +32,19 @@ router.get('/carts/:cid', async (req,res)=>{
 })
 router.post('/:cid/product/:pid', async (req, res) => {
     try {
-        const cartId = parseInt(req.params.cid);
-        const productId = parseInt(req.params.pid);
-        const cart = await manager.getCartById(cartId);
-        const product = await managerP.getProductById(productId);
-        const productIdInCart = cart.products.findIndex(item => item.product === productId);
+        const {cid , pid} = req.params
+        const cart = await cartsModel.findById({ _id:cid})
+        const product = await productsModel.findById({_id: pid}) ;
+        const productIndex = cart.products.findIndex(item => item.productId.equals(pid));
 
-
-        if (productIdInCart !== -1) {
-            cart.products[productIdInCart].quantity++;
+        if (productIndex !== -1) {
+            cart.products[productIndex].quantity++;
         } else {
-            cart.products.push({ product: productId, quantity: 1 });
+            cart.products.push({ productId: pid, quantity: 1 });
         }
+        await cart.save();
 
-        await manager.updateCart(cartId, { products: cart.products });        
-        res.send("Producto agregado al carrito correctamente");
+        res.send({ result: "success", message: "Producto agregado al carrito correctamente", payload: cart });
     } catch (error) {
         res.send("ERROR ,no se agrega producto")
     }
