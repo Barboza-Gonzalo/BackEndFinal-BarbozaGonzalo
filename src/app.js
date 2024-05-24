@@ -1,7 +1,10 @@
 const express = require("express");
+const session = require("express-session");
 const handlebars = require ("express-handlebars");
 const mongoose = require ("mongoose");
+const mongoStore = require ("connect-mongo");
 const Server = require("socket.io");
+const sessionRouter = require("./routes/api/session.router.js");
 const productsRouter = require("./routes/products.router.js");
 const cartsRouter = require("./routes/carts.router.js");
 const viewsRouter = require("./routes/viwes.router.js");
@@ -32,6 +35,13 @@ const hbs = handlebars.create({
     },
 });
 
+app.use(session({
+    secret: 'secretkey',
+    resave: false,
+    saveUninitialized: true,
+    store: mongoStore.create({ mongoUrl: "mongodb+srv://gonBar:gonBar@cluster0.3tgme8j.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0" }),
+}));
+
 app.engine("handlebars", hbs.engine);
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
@@ -44,6 +54,7 @@ app.use(express.static(__dirname + "/public"));
 
 app.use('/products', productsRouter)
 app.use('/api/carts', cartsRouter)
+app.use('/api/sessions', sessionRouter)
 app.use('/', viewsRouter)
 
 
@@ -111,7 +122,7 @@ socketServer.on("connection", (socket) => {
     socket.on("addToCart", async (data) => {
         console.log(data)
         try{
-            
+
 
         }catch{
 

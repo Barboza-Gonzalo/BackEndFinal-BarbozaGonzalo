@@ -133,8 +133,9 @@ router.get('/', async (req, res) => {
             prevLink: page > 1 ? `/products?limit=${limit}&page=${page - 1}&sort=${sort || ''}&query=${query || ''}` : null,
             nextLink: page < totalPages ? `/products?limit=${limit}&page=${page + 1}&sort=${sort || ''}&query=${query || ''}` : null
         };
+        const user = req.session.user
 
-        res.render("products" , response);
+        res.render("products" ,{ response , user});
     } catch (error) {
         console.error("Error fetching products:", error);
         res.status(500).json({ status: "error", message: "Internal server error" });

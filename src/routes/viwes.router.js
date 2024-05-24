@@ -1,7 +1,8 @@
 const express = require("express")
 const router = express.Router();
 const productsModel =require ("../DAO/models/products.model.js");
-const messagesModel =require ("../DAO/models/messages.model.js")
+const messagesModel =require ("../DAO/models/messages.model.js");
+const { notAprob, aprob } = require("../middleware/auth.js");
 
 
 
@@ -38,5 +39,14 @@ router.get("/chat", async (req, res) => {
 
 }
 }) */
+
+router.get("/login", notAprob, (req, res) => {
+  res.render("login");
+});
+
+router.get('/register', notAprob, (req, res) => {
+  res.render('register');
+});
+
 
 module.exports = router
