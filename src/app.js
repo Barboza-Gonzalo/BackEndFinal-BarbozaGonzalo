@@ -1,12 +1,12 @@
-const handlebars = require ("express-handlebars")
-const express = require("express")
-const productsRouter = require("./routes/products.router.js")
-const cartsRouter = require("./routes/carts.router.js")
-const viewsRouter = require("./routes/viwes.router.js")
-const productsModel = require ("./DAO/models/products.model.js")
-const Server = require("socket.io")
-const mongoose = require ("mongoose")
-const messagesModel = require("./DAO/models/messages.model.js")
+const express = require("express");
+const handlebars = require ("express-handlebars");
+const mongoose = require ("mongoose");
+const Server = require("socket.io");
+const productsRouter = require("./routes/products.router.js");
+const cartsRouter = require("./routes/carts.router.js");
+const viewsRouter = require("./routes/viwes.router.js");
+const productsModel = require ("./DAO/models/products.model.js");
+const messagesModel = require("./DAO/models/messages.model.js");
 
 /* 
 const ProductManager = require("./DAO/fileSystem/productManager.js")
@@ -42,7 +42,7 @@ app.use(express.static(__dirname + "/public"));
 
 
 
-app.use('/api/products', productsRouter)
+app.use('/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/', viewsRouter)
 
@@ -105,5 +105,18 @@ socketServer.on("connection", (socket) => {
 
         }
     })
+
+
+
+    socket.on("addToCart", async (data) => {
+        console.log(data)
+        try{
+            
+
+        }catch{
+
+        }
+    });
+    
 
 })

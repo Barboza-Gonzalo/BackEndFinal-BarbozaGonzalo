@@ -21,8 +21,9 @@ router.post('/', async (req,res)=>{
 router.get('/:cid', async (req,res)=>{
     try{
         let {cid} = req.params
-        let result = await cartsModel.findById({ _id:cid})
-        res.send({ result: "success", payload: result })
+        const cart = await cartsModel.findById(cid).populate('products.productId')
+        console.log(cart)
+        res.render("carts", {cart} )
      
 
     }catch(error){
@@ -51,7 +52,65 @@ router.post('/:cid/product/:pid', async (req, res) => {
 })
 
 
+router.delete('/:cid/product/:pid', async (req, res) => {
+    try {
+        const {cid , pid} = req.params
+        const cart = await cartsModel.findById({ _id:cid})
+        if (!cart) {
+            return res.status(404).json({ result: "error", message: "Carrito no existe" });;
+        }
+        const productIndex = cart.products.findIndex(item => item.productId.equals(pid));
+        if (productIndex === -1) {
+            return res.status(404).json({ result: "error", message: "Producto no se encuentra en el carrito" });
+        }        
+        cart.products.splice(productIndex, 1);
+        await cart.save();
+        res.send({ result: "success", message: "Producto eliminado del carrito correctamente", payload: cart });
+    } catch (error) {
+        ;
+        res.status(500).json({ result: "error", message: "Server error" });
+    }
+});
 
+
+
+router.put('/:cid', (req, res) => {
+    // deberá actualizar el carrito con un arreglo de productos con el formato especificado anteriormente.
+})
+
+
+
+router.put('/:cid/products/:pid', async (req, res) => {
+    try{
+        const {cid , pid} = req.params
+        const { quantity } = req.body;
+        const cart = await cartsModel.findById({ _id:cid})
+        const productIndex = cart.products.findIndex(item => item.productId.equals(pid));
+
+        cart.products[productIndex].quantity = quantity
+        await cart.save();
+
+        res.send({ result: "success", payload: cart });
+    } catch (error) {
+        res.status(404).send("ERROR ,no se suma producto")
+    }
+    
+})
+
+
+
+router.delete('/:cid', async (req, res) => {
+    const {cid } = req.params
+    const cart = await cartsModel.findById({ _id:cid})
+    if (!cart) {
+        return res.json({ result: "error", message: "carrito no existente" });
+    }
+    cart.products = [];
+    await cart.save();
+
+    res.status(200).send({ result: "success", payload: cart })
+    
+})
 
 
 
