@@ -8,7 +8,7 @@ const { notAprob, aprob } = require("../middleware/auth.js");
 
 
 
-
+/* 
 router.get("/", async (req, res) => {
   try {
     
@@ -23,7 +23,14 @@ router.get("/", async (req, res) => {
   } catch (error) {
   }
 });
-
+ */
+router.get('/', (req, res) => {
+  if (req.session.user) {
+      res.redirect('/products');
+  } else {
+      res.redirect('/login');
+  }
+});
 
 
 router.get("/chat", async (req, res) => {
@@ -40,7 +47,7 @@ router.get("/chat", async (req, res) => {
 }
 }) */
 
-router.get("/login", notAprob, (req, res) => {
+router.get("/login",notAprob, (req, res) => {
   res.render("login");
 });
 

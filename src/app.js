@@ -4,6 +4,8 @@ const handlebars = require ("express-handlebars");
 const mongoose = require ("mongoose");
 const mongoStore = require ("connect-mongo");
 const Server = require("socket.io");
+const passport = require("passport")
+const initializePassport = require ("./config/passport.config.js")
 const sessionRouter = require("./routes/api/session.router.js");
 const productsRouter = require("./routes/products.router.js");
 const cartsRouter = require("./routes/carts.router.js");
@@ -41,6 +43,10 @@ app.use(session({
     saveUninitialized: true,
     store: mongoStore.create({ mongoUrl: "mongodb+srv://gonBar:gonBar@cluster0.3tgme8j.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0" }),
 }));
+
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.engine("handlebars", hbs.engine);
 app.set("views", __dirname + "/views");
