@@ -13,7 +13,7 @@
         <h2>{{this.title}} {{this.description}}</h2>
         <img src="{{this.thumbnail}}" width="100" height="100" alt="">
         <p>${{this.price}}- - -ID:{{this.id}}</p>
-        <button data-id="{{this.id}}" class="addCart" >Add to cart</button>
+        <button data-id="{{this.id}}"  class="addCart" >Add to cart</button>
     </div>
     <br />
     {{/each}}
@@ -41,7 +41,8 @@
     document.querySelectorAll(".addCart").forEach(button => {
         button.addEventListener("click", () => {
             const productId = button.getAttribute("data-id");
-            socket.emit("addToCart", { productId });
+            const cartId = button.getAttribute('data-cart');
+            socket.emit("addToCart", { productId});
         });
     });
 

@@ -1,0 +1,10 @@
+<h1>Datos del Usuario</h1>
+<p>Nombre:{{user.first_name}}</p>
+<p>Apellido:{{user.last_name}}</p>
+<p>Email:{{user.email}}</p>
+<p>Edad:{{user.age}}</p>
+<p>Id Carrito:{{user.cart}}</p>
+<p>Role:{{user.role}}</p>
+<form action="/api/sessions/logout" method="POST">
+    <button type="submit">Cerrar Sesión</button>
+</form>

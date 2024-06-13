@@ -1,6 +1,7 @@
 const passport = require("passport");
 const local = require ("passport-local")
 const GitHubStrategy = require ("passport-github2")
+const cartModel = require ("../DAO/models/carts.model.js")
 const userModel = require ("../DAO/models/users.model.js")
 const {createHash , isValidPassword} = require ("../utils.js")
 
@@ -16,7 +17,9 @@ const initializePassport = ()=>{
                 let user = await userModel.findOne({email:username});
                 if(user){ return done(null,false);
                 }
-                const newUser = new userModel({ first_name, last_name, email, age, password:createHash(password) });
+                const newCart = new cartModel({ items: [], total: 0 });
+                const savedCart = await newCart.save();
+                const newUser = new userModel({ first_name, last_name, email, age, password:createHash(password) ,cart: savedCart._id });
                 let result = await userModel.create(newUser);
                 return done(null,result)
             }catch(error){
@@ -39,12 +42,15 @@ const initializePassport = ()=>{
                 console.log(profile)
                 let user = await userModel.findOne({ email: profile._json.email })
                 if (!user) {
+                    const newCart = new cartModel({ items: [], total: 0 });
+                    const savedCart = await newCart.save();
                     let newUser = {
                         first_name: profile._json.name,
                         last_name: "",
                         age: 20,
                         email: profile._json.email,
-                        password: ""
+                        password: "",
+                        cart: savedCart._id
                     }
                     let result = await userModel.create(newUser)
                     done(null, result)

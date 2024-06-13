@@ -55,5 +55,13 @@ router.get('/register', notAprob, (req, res) => {
   res.render('register');
 });
 
+router.get("/current", (req, res) => {
+  if (req.isAuthenticated()) {
+      const user = req.user
+      res.render ("profile",{user});
+  } else {
+      ;
+  }
+}); 
 
 module.exports = router

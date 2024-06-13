@@ -52,7 +52,7 @@ router.post('/login',passport.authenticate('login', { failureRedirect: 'faillogi
 }); 
 
 router.get('/faillogin', (req, res) => {
-    res.send({ error: "Falied login" })
+    res.redirect('/login')
 })
 
 router.post('/logout', (req, res) => {
