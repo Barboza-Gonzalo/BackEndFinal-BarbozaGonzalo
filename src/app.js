@@ -4,7 +4,8 @@ const handlebars = require ("express-handlebars");
 const mongoose = require ("mongoose");
 const mongoStore = require ("connect-mongo");
 const Server = require("socket.io");
-const passport = require("passport")
+const passport = require("passport");
+const config = require ("./config/config.js")
 const initializePassport = require ("./config/passport.config.js")
 const sessionRouter = require("./routes/api/session.router.js");
 const productsRouter = require("./routes/products.router.js");
@@ -20,11 +21,11 @@ const manager = new ProductManager */
 
 
 const app = express()
-const PORT = 8080
+const PORT = config.port
 const httpServer = app.listen(PORT, () => {console.log(`Servidor corriendo en puerto: ${PORT}`)})
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-mongoose.connect("mongodb+srv://gonBar:gonBar@cluster0.3tgme8j.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0")
+mongoose.connect(config.mongo)
 
 const socketServer =  Server(httpServer)
 
@@ -41,7 +42,7 @@ app.use(session({
     secret: 'secretkey',
     resave: false,
     saveUninitialized: true,
-    store: mongoStore.create({ mongoUrl: "mongodb+srv://gonBar:gonBar@cluster0.3tgme8j.mongodb.net/ecommerce?retryWrites=true&w=majority&appName=Cluster0" }),
+    store: mongoStore.create({ mongoUrl: config.mongo }),
 }));
 
 initializePassport();
@@ -64,11 +65,6 @@ app.use('/api/sessions', sessionRouter)
 app.use('/', viewsRouter)
 
 
-
-/* 
-app.use("/", productsRouter)
-app.use("/", cartsRouter)
-app.use("/",viewsRouter)  */
 
 
 

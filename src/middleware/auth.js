@@ -14,4 +14,6 @@ const notAprob = (req, res, next) => {
     }
 };
 
-module.exports = {aprob,notAprob};
+module.exports = {
+    aprob,
+    notAprob};
