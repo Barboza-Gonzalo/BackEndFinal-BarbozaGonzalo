@@ -11,8 +11,8 @@ const sessionRouter = require("./routes/api/session.router.js");
 const productsRouter = require("./routes/products.router.js");
 const cartsRouter = require("./routes/carts.router.js");
 const viewsRouter = require("./routes/viwes.router.js");
-const productsModel = require ("./DAO/models/products.model.js");
-const messagesModel = require("./DAO/models/messages.model.js");
+const productsModel = require ("./DAO/mongo/models/products.model.js");
+const messagesModel = require("./DAO/mongo/models/messages.model.js");
 
 /* 
 const ProductManager = require("./DAO/fileSystem/productManager.js")

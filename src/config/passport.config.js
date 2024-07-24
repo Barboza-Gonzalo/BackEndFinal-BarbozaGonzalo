@@ -1,8 +1,8 @@
 const passport = require("passport");
 const local = require ("passport-local")
 const GitHubStrategy = require ("passport-github2")
-const cartModel = require ("../DAO/models/carts.model.js")
-const userModel = require ("../DAO/models/users.model.js")
+const cartModel = require ("../DAO/mongo/models/carts.model.js")
+const userModel = require ("../DAO/mongo/models/users.model.js")
 const {createHash , isValidPassword} = require ("../utils.js")
 
 

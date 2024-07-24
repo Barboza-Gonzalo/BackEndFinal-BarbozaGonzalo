@@ -1,13 +1,14 @@
 const express = require("express")
 const router = express.Router()
-const  productsControllers = require  ("../controllers/productsControllers.js")
+const  productsControllers = require  ("../controllers/productsControllers.js");
+const { adminOnly } = require("../middleware/auth.js");
 
 
 
 router.get('/:pid', productsControllers.getProductsById) 
-router.post('/', productsControllers.createProduct);
-router.put('/:pid', productsControllers.updateProduct)
-router.delete('/:pid', productsControllers.deleteProduct)
+router.post('/',adminOnly, productsControllers.createProduct);
+router.put('/:pid',adminOnly, productsControllers.updateProduct)
+router.delete('/:pid',adminOnly, productsControllers.deleteProduct)
 router.get('/', productsControllers.getProducts);
 
 

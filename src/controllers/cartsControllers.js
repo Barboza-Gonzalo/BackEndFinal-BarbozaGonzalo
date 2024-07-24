@@ -1,6 +1,6 @@
-const cartsModel = require("../DAO/models/carts.model.js")
-const productsModel = require("../DAO/models/products.model.js")
-
+const cartsModel = require("../DAO/mongo/models/carts.model.js")
+const productsModel = require("../DAO/mongo/models/products.model.js")
+const ticketModel = require("../DAO/mongo/models/ticket.model.js");
 
 
 async function getCartById (req,res) {
@@ -107,6 +107,60 @@ async function updateProductInCart(req,res){
 }
 
 
+async function createTicket(req, res) {
+    try {
+        console.log("Session User:", req.session.user)
+        const userId = req.session.user; 
+        const userEmail = req.session.user.email; 
+        const cart = await cartsModel.findOne({ _id: req.session.user.cart }).populate("products.productId");
+        
+        if (!cart) {
+            return res.status(404).json({ status: "error", message: "Carrito no encontrado" });
+        }
+
+        let totalAmount = 0;
+        const productsNotProcessed = [];
+
+        for (const item of cart.products) {
+            const product = item.productId;
+            const quantity = item.quantity;
+
+            if (product.stock >= quantity) {
+                product.stock -= quantity;
+                await product.save(); 
+
+                totalAmount += product.price * quantity; 
+            } else {
+                productsNotProcessed.push(product._id); 
+            }
+        }
+
+        if (totalAmount > 0) {
+            const newTicket = new ticketModel({
+                code: new Date().getTime().toString(), 
+                amount: totalAmount,
+                purchaser: userEmail,
+            });
+
+            await newTicket.save();
+        }
+
+        
+        cart.products = cart.products.filter(item => productsNotProcessed.includes(item.productId._id));
+        await cart.save();
+
+        res.json({
+            status: "success",
+            message: "Compra procesada",
+            productsNotProcessed,
+        });
+    } catch (error) {
+        console.error("Error processing purchase:", error);
+        res.status(500).json({ status: "error", message: "Error interno del servidor" });
+    }
+}
+
+
 
 
 
@@ -116,5 +170,6 @@ module.exports = {
     addProdToCart,
     deleteProductInCart,
     deleteCart,
-    updateProductInCart
+    updateProductInCart,
+    createTicket
 }

@@ -1,4 +1,5 @@
-const productsModel = require ("../DAO/models/products.model.js")
+const productsModel = require ("../DAO/mongo/models/products.model.js")
+
 
 
 async function   getProducts(req, res) {

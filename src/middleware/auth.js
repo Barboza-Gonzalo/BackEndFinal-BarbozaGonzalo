@@ -14,6 +14,23 @@ const notAprob = (req, res, next) => {
     }
 };
 
+const adminOnly = (req, res, next) => {
+    if (req.session.user && req.session.user.role === 'admin') {
+        return next();
+    } else {
+    }
+};
+
+const userOnly = (req, res, next) => {
+    if (req.session.user && req.session.user.role === 'usuario') {
+        return next();
+    } else {
+        res.redirect('/products')
+    }
+};
+
 module.exports = {
     aprob,
-    notAprob};
+    notAprob,
+    adminOnly,
+    userOnly};

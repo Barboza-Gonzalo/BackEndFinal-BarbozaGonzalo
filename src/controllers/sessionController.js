@@ -1,4 +1,4 @@
-const userModel = require("../DAO/models/users.model.js");
+const userModel = require("../DAO//mongo/models/users.model.js");
 const  {createHash}  = require("../utils.js");
 
 
@@ -15,6 +15,7 @@ async function loginUser (req,res){
         last_name: req.user.last_name,
         age: req.user.age,
         email: req.user.email,
+        cart:req.user.cart,
         role: req.user.role
     }
     res.redirect('/products')
