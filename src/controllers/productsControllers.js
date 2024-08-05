@@ -1,4 +1,8 @@
-const productsModel = require ("../DAO/mongo/models/products.model.js")
+const productsModel = require ("../DAO/mongo/models/products.model.js");
+const { CustomError } = require("../services/CustomError.js");
+const  {EErrors}  = require("../services/errorEnum.js");
+const { generateProductErrorInfo } = require("../services/info.js");
+
 
 
 
@@ -60,19 +64,36 @@ async function   getProducts(req, res) {
 async function getProductsById (req,res){
     try{
         const {pid} = req.params;
+        
         const result = await productsModel.findById({_id:pid});
         res.send({ result: "success", payload: result })
+        
 
     }catch(error){
+        
         res.send("ID inexistente")
 
     }
 }
 
 
-async function createProduct (req,res){
+
+
+
+
+async function createProduct(req, res, next) {
     try {
         const { title, description, price, thumbnail, code, stock, status, category } = req.body;
+
+        if (!title || !description || !price || !thumbnail || !code || !stock || status === undefined || !category) {
+            throw CustomError.createError({
+                name: "Creación de producto",
+                cause: generateProductErrorInfo({ title, description, price, thumbnail, code, stock, status, category }),
+                message: "Error al intentar crear producto",
+                code: EErrors.INVALID_TYPES_ERROR
+            });
+        }
+
         const result = await productsModel.create({
             title,
             description,
@@ -85,9 +106,8 @@ async function createProduct (req,res){
         });
 
         res.send({ result: "success", payload: result });
-
     } catch (error) {
-        
+        next(error)
     }
 }
 

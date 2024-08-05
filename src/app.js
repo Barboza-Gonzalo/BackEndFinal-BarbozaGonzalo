@@ -13,7 +13,7 @@ const cartsRouter = require("./routes/carts.router.js");
 const viewsRouter = require("./routes/viwes.router.js");
 const productsModel = require ("./DAO/mongo/models/products.model.js");
 const messagesModel = require("./DAO/mongo/models/messages.model.js");
-
+const {errorHandler} = require ("./middleware/indexError.js")
 /* 
 const ProductManager = require("./DAO/fileSystem/productManager.js")
 
@@ -26,6 +26,7 @@ const httpServer = app.listen(PORT, () => {console.log(`Servidor corriendo en pu
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 mongoose.connect(config.mongo)
+
 
 const socketServer =  Server(httpServer)
 
@@ -49,6 +50,7 @@ initializePassport();
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 app.engine("handlebars", hbs.engine);
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
@@ -66,7 +68,7 @@ app.use('/', viewsRouter)
 
 
 
-
+app.use(errorHandler)
 
 socketServer.on("connection", (socket) => {
     console.log("Nueva conexión");

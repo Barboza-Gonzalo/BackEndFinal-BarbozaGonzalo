@@ -1,6 +1,9 @@
 const cartsModel = require("../DAO/mongo/models/carts.model.js")
 const productsModel = require("../DAO/mongo/models/products.model.js")
 const ticketModel = require("../DAO/mongo/models/ticket.model.js");
+const { addProductCartError } = require("../services/info.js");
+const  {EErrors}  = require("../services/errorEnum.js");
+const { CustomError } = require("../services/CustomError.js");
 
 
 async function getCartById (req,res) {
@@ -33,11 +36,23 @@ async function createNewCart (req,res) {
 }
 
 
-async function addProdToCart (req,res){
+async function addProdToCart(req, res, next) {
     try {
-        const {cid , pid} = req.params
-        const cart = await cartsModel.findById({ _id:cid})
-        const product = await productsModel.findById({_id: pid}) ;
+        const { cid, pid } = req.params;
+        const cart = await cartsModel.findById(cid);
+        const product = await productsModel.findById(pid);
+        
+        
+
+        if (!cart || !product) {
+            throw CustomError.createError({
+                name: "Agregar producto a carrito",
+                cause: addProductCartError({cid, pid}),
+                message: "Error al intentar agregar producto al carrito: carrito o producto no encontrado",
+                code: EErrors.DATABASE_ERROR
+            });
+        }
+
         const productIndex = cart.products.findIndex(item => item.productId.equals(pid));
 
         if (productIndex !== -1) {
@@ -45,13 +60,15 @@ async function addProdToCart (req,res){
         } else {
             cart.products.push({ productId: pid, quantity: 1 });
         }
+
         await cart.save();
 
         res.send({ result: "success", message: "Producto agregado al carrito correctamente", payload: cart });
     } catch (error) {
-        res.send("ERROR ,no se agrega producto")
+        next(error);
     }
 }
+
 
 
 async function deleteProductInCart(req,res){

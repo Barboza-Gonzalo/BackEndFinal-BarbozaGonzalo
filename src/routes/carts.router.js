@@ -5,7 +5,7 @@ const { userOnly } = require("../middleware/auth.js");
 
 router.get('/:cid', cartsControllers.getCartById);
 router.post('/', cartsControllers.createNewCart);
-router.post('/:cid/product/:pid',userOnly, cartsControllers.addProdToCart);
+router.post('/:cid/product/:pid', cartsControllers.addProdToCart);
 router.delete('/:cid/product/:pid', cartsControllers.deleteProductInCart);
 router.put('/:cid/products/:pid', cartsControllers.updateProductInCart);
 router.delete('/:cid', cartsControllers.deleteCart);
