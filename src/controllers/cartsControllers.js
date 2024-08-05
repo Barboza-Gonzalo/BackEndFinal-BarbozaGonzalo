@@ -71,55 +71,92 @@ async function addProdToCart(req, res, next) {
 
 
 
-async function deleteProductInCart(req,res){
+async function deleteProductInCart(req,res,next){
     try {
         const {cid , pid} = req.params
         const cart = await cartsModel.findById({ _id:cid})
         if (!cart) {
-            return res.status(404).json({ result: "error", message: "Carrito no existe" });;
+            throw CustomError.createError({
+                name: "Carrito no encontrado para eliminar",
+                cause: addProductCartError({cid, pid}),
+                message: "Error al intentar eliminar producto al carrito: carrito o producto no encontrado",
+                code: EErrors.DATABASE_ERROR
+            });
         }
         const productIndex = cart.products.findIndex(item => item.productId.equals(pid));
         if (productIndex === -1) {
-            return res.status(404).json({ result: "error", message: "Producto no se encuentra en el carrito" });
+            throw CustomError.createError({
+                name: "Producto no encontrado en carrito",
+                cause: addProductCartError({cid, pid}),
+                message: "Error al intentar eliminar producto al carrito: carrito o producto no encontrado",
+                code: EErrors.DATABASE_ERROR
+            });
+        
         }        
         cart.products.splice(productIndex, 1);
         await cart.save();
         res.send({ result: "success", message: "Producto eliminado del carrito correctamente", payload: cart });
     } catch (error) {
-        ;
-        res.status(500).json({ result: "error", message: "Server error" });
+        next(error)
     }
 }
 
 
 
-async function deleteCart (req,res){
-    const {cid } = req.params
+async function deleteCart (req,res,next){
+  try{  const {cid } = req.params
     const cart = await cartsModel.findById({ _id:cid})
     if (!cart) {
-        return res.json({ result: "error", message: "carrito no existente" });
+        throw CustomError.createError({
+            name: "Carrito no encontrado para eliminar",
+            cause: addProductCartError({cid}),
+            message: "Error al intentar eliminar producto al carrito: carrito o producto no encontrado",
+            code: EErrors.DATABASE_ERROR
+        })
+        
     }
     cart.products = [];
     await cart.save();
 
     res.status(200).send({ result: "success", payload: cart })
 }
+catch(error){
+    next(error)
+}}
 
 
 
-async function updateProductInCart(req,res){
+async function updateProductInCart(req,res,next){
     try{
         const {cid , pid} = req.params
         const { quantity } = req.body;
         const cart = await cartsModel.findById({ _id:cid})
         const productIndex = cart.products.findIndex(item => item.productId.equals(pid));
+        if (!cart) {
+            throw CustomError.createError({
+                name: "Carrito no encontrado para eliminar",
+                cause: addProductCartError({cid, pid}),
+                message: "Error al intentar eliminar producto al carrito: carrito o producto no encontrado",
+                code: EErrors.DATABASE_ERROR
+            });
+        }
+        
+        if (productIndex === -1) {
+            throw CustomError.createError({
+                name: "Producto no encontrado en carrito",
+                cause: addProductCartError({cid, pid}),
+                message: "Error al intentar eliminar producto al carrito: carrito o producto no encontrado",
+                code: EErrors.DATABASE_ERROR
+            });
+        
+        } 
 
         cart.products[productIndex].quantity = quantity
         await cart.save();
 
         res.send({ result: "success", payload: cart });
     } catch (error) {
-        res.status(404).send("ERROR ,no se suma producto")
+        next(error)
     }
 }
 
