@@ -1,9 +1,9 @@
 
 const bcrypt = require("bcrypt");
-const { Faker , es_MX , en } = require('@faker-js/faker');
+const { Faker , es , en } = require('@faker-js/faker');
 const { trusted } = require("mongoose");
 
-const faker = new Faker({locale:[es_MX , en ]});
+const faker = new Faker({locale:[ en ]});
 
 const createHash = password => bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 
@@ -18,7 +18,7 @@ const generateProductFaker =()=>{
     thumbnail:faker.image.urlPicsumPhotos() ,
     code: faker.string.uuid() ,
     stock:faker.number.int(),
-    status:faker.datatype.boolean(),
+    status:true,
     category: faker.commerce.productAdjective(),
     }
 
