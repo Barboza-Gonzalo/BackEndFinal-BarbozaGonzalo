@@ -9,6 +9,7 @@ async function registerUser (req,res){
 
 
 async function loginUser (req,res){
+    req.logger.info("inicio login raiz");
     if (!req.user) return res.status(400).send({ status: 'error', error: "Invalid credentials" })
     req.session.user = {
         first_name: req.user.first_name,
@@ -23,7 +24,7 @@ async function loginUser (req,res){
 
 
 async function failRegister (req,res){
-    console.log("Failed Strategy")
+    
     res.send({ error: "Failed" })
 }
 async function logoutUser (req,res){
@@ -34,6 +35,7 @@ async function logoutUser (req,res){
 }
 
 async function failLogin (req,res){
+    req.logger.error();
     res.redirect('/login')
 }
 

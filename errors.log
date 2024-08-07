@@ -1,0 +1,40 @@
+{"level":"\u001b[32mhttp\u001b[39m","message":"GETen/loggerTest-6/8/2024, 22:25:02"}
+{"level":"\u001b[34minfo\u001b[39m","message":"Prueba de Logs Info"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"Prueba de Logs Debug"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Prueba de Logs Warn"}
+{"level":"\u001b[35merror\u001b[39m","message":"Prueba de Logs Error"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"GETen/login-6/8/2024, 22:25:09"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"POSTen/api/sessions/login-6/8/2024, 22:25:25"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"GETen/api/sessions/faillogin-6/8/2024, 22:25:25"}
+{"level":"\u001b[35merror\u001b[39m","message":""}
+{"level":"\u001b[32mhttp\u001b[39m","message":"GETen/login-6/8/2024, 22:25:25"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"GETen/loggerTest-6/8/2024, 22:31:40"}
+{"level":"\u001b[34minfo\u001b[39m","message":"Prueba de Logs Info"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"Prueba de Logs Debug"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Prueba de Logs Warn"}
+{"level":"\u001b[35merror\u001b[39m","message":"Prueba de Logs Error"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"GETen/loggerTest-6/8/2024, 22:35:22"}
+{"level":"\u001b[34minfo\u001b[39m","message":"Prueba de Logs Info"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"Prueba de Logs Debug"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Prueba de Logs Warn"}
+{"level":"\u001b[35merror\u001b[39m","message":"Prueba de Logs Error"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"GETen/loggerTest-6/8/2024, 22:35:28"}
+{"level":"\u001b[34minfo\u001b[39m","message":"Prueba de Logs Info"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"Prueba de Logs Debug"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Prueba de Logs Warn"}
+{"level":"\u001b[35merror\u001b[39m","message":"Prueba de Logs Error"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"GETen/loggerTest-6/8/2024, 22:37:47"}
+{"level":"\u001b[34minfo\u001b[39m","message":"Prueba de Logs Info"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"Prueba de Logs Debug"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Prueba de Logs Warn"}
+{"level":"\u001b[35merror\u001b[39m","message":"Prueba de Logs Error"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"GETen/loggerTest-6/8/2024, 22:37:53"}
+{"level":"\u001b[34minfo\u001b[39m","message":"Prueba de Logs Info"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"Prueba de Logs Debug"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Prueba de Logs Warn"}
+{"level":"\u001b[35merror\u001b[39m","message":"Prueba de Logs Error"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"GETen/loggerTest-6/8/2024, 22:38:18"}
+{"level":"\u001b[34minfo\u001b[39m","message":"Prueba de Logs Info"}
+{"level":"\u001b[37mdebug\u001b[39m","message":"Prueba de Logs Debug"}
+{"level":"\u001b[33mwarning\u001b[39m","message":"Prueba de Logs Warn"}
+{"level":"\u001b[35merror\u001b[39m","message":"Prueba de Logs Error"}

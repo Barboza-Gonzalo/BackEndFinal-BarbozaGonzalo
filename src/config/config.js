@@ -6,4 +6,4 @@ dotenv.config({
 })
 
 
-module.exports = {port: process.env.PORT , mongo: process.env.MONGO_URL , persistence: process.env.PERSISTENCE}
+module.exports = {port: process.env.PORT , mongo: process.env.MONGO_URL , persistence: process.env.PERSISTENCE , environment }

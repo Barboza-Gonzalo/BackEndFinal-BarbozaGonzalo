@@ -5,6 +5,7 @@ const messagesModel =require ("../DAO/mongo/models/messages.model.js");
 const { notAprob, aprob, userOnly } = require("../middleware/auth.js");
 const {UserDTO} = require ("../DAO/DTO/user.DTO.js");
 const { generateProductFaker } = require("../utils.js");
+const {addLogger} = require("../public/js/logger.js")
 
 
 
@@ -42,7 +43,17 @@ router.get("/current", (req, res) => {
   }
 }); 
 
+router.get("/loggerTest", async(req,res,)=>{
+  
+  req.logger.info("Prueba de Logs Info"),
+  req.logger.debug("Prueba de Logs Debug")
+  req.logger.warning("Prueba de Logs Warn"),
+  req.logger.error("Prueba de Logs Error"),
+  req.logger.fatal("Prueba logs de Fatal Err")
 
+  res.send('Logs probados, verifica la consola y el archivo de logs.');
+
+})
 router.get("/mockingproducts", async (req,res)=>{
   let products =[]
 

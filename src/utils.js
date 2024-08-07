@@ -1,7 +1,7 @@
 
 const bcrypt = require("bcrypt");
 const { Faker , es , en } = require('@faker-js/faker');
-const { trusted } = require("mongoose");
+
 
 const faker = new Faker({locale:[ en ]});
 
