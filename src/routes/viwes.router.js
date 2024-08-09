@@ -6,6 +6,15 @@ const { notAprob, aprob, userOnly } = require("../middleware/auth.js");
 const {UserDTO} = require ("../DAO/DTO/user.DTO.js");
 const { generateProductFaker } = require("../utils.js");
 const {addLogger} = require("../public/js/logger.js")
+const sessionController = require("../controllers/sessionController.js")
+
+
+
+router.post("/mail",sessionController.sendRecoveryMail)
+router.get("/mail", (req,res)=>{res.render("respassword")})
+router.post("/recoverypassword", sessionController.newPassword)
+
+
 
 
 
@@ -62,4 +71,7 @@ router.get("/mockingproducts", async (req,res)=>{
   }
   res.send({status:"success" , payload:products})
 })
+
+
+
 module.exports = router

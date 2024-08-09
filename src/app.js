@@ -15,6 +15,7 @@ const productsModel = require ("./DAO/mongo/models/products.model.js");
 const messagesModel = require("./DAO/mongo/models/messages.model.js");
 const {errorHandler} = require ("./middleware/indexError.js");
 const { addLogger } = require("./public/js/logger.js");
+const nodemailer = require("nodemailer")
 /* 
 const ProductManager = require("./DAO/fileSystem/productManager.js")
 
@@ -59,6 +60,7 @@ app.engine("handlebars", hbs.engine);
 app.set("views", __dirname + "/views");
 app.set("view engine", "handlebars");
 app.use(express.static(__dirname + "/public"));
+
 
 
 

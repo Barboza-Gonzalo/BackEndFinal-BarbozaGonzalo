@@ -1,5 +1,9 @@
+const { transport } = require("winston");
 const userModel = require("../DAO//mongo/models/users.model.js");
 const  {createHash}  = require("../utils.js");
+const config  = require("../config/config.js");
+const nodemailer = require("nodemailer");
+
 
 
 
@@ -39,7 +43,43 @@ async function failLogin (req,res){
     res.redirect('/login')
 }
 
+async function sendRecoveryMail (req,res){
+    const transport = nodemailer.createTransport({
+        service:"gmail",
+        auth:{
+            user: config.user ,
+            pass: config.pass
+        }
+    })
+    
+    let email = req.body.email
+    
+    let result = await transport.sendMail({
+        from: "gonzaloagutinbarboza@gmail.com",
+        to: email,
+        subject : "Restablecer Contraseña",
+        html:`
+        <div>
+        <a href="http://localhost:8080/mail">
+    <button>Restablecer Contraseña</button>
+        </a>         
+        </div>`
+    })
 
+}
+
+async function newPassword (req,res){
+    
+try{
+    const { email, password } = req.body;
+    let user = await userModel.findOne({email:email})
+    const hashedPassword = createHash(password);
+    await userModel.updateOne({ email: email }, { $set: { password: hashedPassword } });
+    res.redirect("/login")
+    }catch(error){
+        
+    }
+}
 
 
 
@@ -49,5 +89,6 @@ module.exports={
     loginUser,
     logoutUser,
     failRegister,
-    failLogin
-}
+    failLogin, 
+    sendRecoveryMail,
+newPassword}
