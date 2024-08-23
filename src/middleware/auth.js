@@ -15,7 +15,7 @@ const notAprob = (req, res, next) => {
 };
 
 const adminOnly = (req, res, next) => {
-    if (req.session.user && req.session.user.role === 'admin') {
+    if (req.session.user && req.session.user.role === 'premium') {
         return next();
     } else {
     }

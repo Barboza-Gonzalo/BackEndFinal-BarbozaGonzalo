@@ -1,0 +1,212 @@
+paths:
+  /products:
+    get:
+      summary: "Obtener productos"
+      description: "Obtiene una lista paginada de productos. Permite filtrar por categoría y estado, y ordenar por precio."
+      parameters:
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            default: 10
+          description: "Número de productos por página."
+        - in: query
+          name: page
+          schema:
+            type: integer
+            default: 1
+          description: "Número de página."
+        - in: query
+          name: sort
+          schema:
+            type: string
+            enum: [asc, desc]
+          description: "Ordenar por precio."
+        - in: query
+          name: query
+          schema:
+            type: string
+          description: "Buscar por categoría o estado."
+      responses:
+        '200':
+          description: "Lista de productos obtenida con éxito."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "success"
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  totalPages:
+                    type: integer
+                  prevPage:
+                    type: integer
+                    nullable: true
+                  nextPage:
+                    type: integer
+                    nullable: true
+                  page:
+                    type: integer
+                  hasPrevPage:
+                    type: boolean
+                  hasNextPage:
+                    type: boolean
+                  prevLink:
+                    type: string
+                    nullable: true
+                  nextLink:
+                    type: string
+                    nullable: true
+        '500':
+          description: "Error interno del servidor."
+
+    post:
+      summary: "Crear un nuevo producto"
+      description: "Crea un nuevo producto en la base de datos."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '201':
+          description: "Producto creado con éxito."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: "success"
+                  payload:
+                    $ref: '#/components/schemas/Product'
+        '400':
+          description: "Datos de entrada inválidos."
+        '500':
+          description: "Error interno del servidor."
+
+  /products/{pid}:
+    get:
+      summary: "Obtener producto por ID"
+      description: "Obtiene un producto específico por su ID."
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: "ID del producto."
+      responses:
+        '200':
+          description: "Producto obtenido con éxito."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: "success"
+                  payload:
+                    $ref: '#/components/schemas/Product'
+        '404':
+          description: "Producto no encontrado."
+        '500':
+          description: "Error interno del servidor."
+
+    put:
+      summary: "Actualizar un producto"
+      description: "Actualiza la información de un producto existente."
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: "ID del producto."
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        '200':
+          description: "Producto actualizado con éxito."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: "success"
+                  payload:
+                    $ref: '#/components/schemas/Product'
+        '404':
+          description: "Producto no encontrado."
+        '500':
+          description: "Error interno del servidor."
+
+    delete:
+      summary: "Eliminar un producto"
+      description: "Elimina un producto existente de la base de datos."
+      parameters:
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: "ID del producto."
+      responses:
+        '200':
+          description: "Producto eliminado con éxito."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                    example: "success"
+        '404':
+          description: "Producto no encontrado."
+        '500':
+          description: "Error interno del servidor."
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Nombre del producto"
+        description:
+          type: string
+          example: "Descripción del producto"
+        price:
+          type: number
+          example: 100.00
+        thumbnail:
+          type: string
+          example: "url/de/imagen.jpg"
+        code:
+          type: string
+          example: "ABC123"
+        stock:
+          type: integer
+          example: 50
+        status:
+          type: boolean
+          example: true
+        category:
+          type: string
+          example: "Categoría del producto"

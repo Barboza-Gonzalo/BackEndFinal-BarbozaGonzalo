@@ -16,22 +16,34 @@ const messagesModel = require("./DAO/mongo/models/messages.model.js");
 const {errorHandler} = require ("./middleware/indexError.js");
 const { addLogger } = require("./public/js/logger.js");
 const nodemailer = require("nodemailer")
+const swaggerJsdoc = require("swagger-jsdoc");
+const SwaggerUiExpress = require ("swagger-ui-express")
 /* 
 const ProductManager = require("./DAO/fileSystem/productManager.js")
 
 const manager = new ProductManager */
 
-
 const app = express()
 const PORT = config.port
 const environment = config.environment
 const httpServer = app.listen(PORT, () => {console.log(`Servidor corriendo en puerto: ${PORT}`)})
-
+const swaggerOptions ={
+    definition:{
+        openapi:"3.0.1",
+        info:{
+            title:"Documentacion",
+            description:"Api clase Swagger"
+        },
+    },
+    apis:['src/docs/**/*.yaml']
+};
+const specs = swaggerJsdoc(swaggerOptions);
+app.use('/apidocs',SwaggerUiExpress.serve,SwaggerUiExpress.setup(specs))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 mongoose.connect(config.mongo)
 
-console.log(environment)
+
 app.use(addLogger(environment))
 const socketServer =  Server(httpServer)
 
