@@ -5,7 +5,8 @@
   "main": "index.cjs",
   "type": "commonjs",
   "scripts": {
-    "start": "node  src/app.js"
+    "start": "node  src/app.js",
+    "test": "mocha test/Products.test.js"
   },
   "keywords": [],
   "author": "",
@@ -34,5 +35,8 @@
     "swagger-ui-express": "^5.0.1",
     "sweetalert2": "^11.11.0",
     "winston": "^3.13.1"
+  },
+  "devDependencies": {
+    "mocha": "^10.7.3"
   }
 }

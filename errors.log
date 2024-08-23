@@ -121,3 +121,5 @@
 {"level":"\u001b[32mhttp\u001b[39m","message":"GETen/favicon.ico-23/8/2024, 17:11:22"}
 {"level":"\u001b[32mhttp\u001b[39m","message":"GETen/api/carts/:cid/purchase-23/8/2024, 17:11:29"}
 {"level":"\u001b[32mhttp\u001b[39m","message":"GETen/products-23/8/2024, 17:11:29"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"POSTen/products-23/8/2024, 20:07:14"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"POSTen/products-23/8/2024, 20:09:27"}
