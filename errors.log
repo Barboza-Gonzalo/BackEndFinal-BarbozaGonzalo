@@ -271,3 +271,5 @@
 {"level":"\u001b[32mhttp\u001b[39m","message":"POSTen/api/sessions/login-2/9/2024, 22:59:41"}
 {"level":"\u001b[34minfo\u001b[39m","message":"inicio login raiz"}
 {"level":"\u001b[32mhttp\u001b[39m","message":"GETen/products-2/9/2024, 22:59:41"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"POSTen/api/sessions/logout-2/9/2024, 23:02:16"}
+{"level":"\u001b[32mhttp\u001b[39m","message":"GETen/login-2/9/2024, 23:02:17"}
