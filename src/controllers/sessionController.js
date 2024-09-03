@@ -15,6 +15,8 @@ async function registerUser (req,res){
 async function loginUser (req,res){
     req.logger.info("inicio login raiz");
     if (!req.user) return res.status(400).send({ status: 'error', error: "Invalid credentials" })
+    req.user.last_connection = new Date();
+    await req.user.save();
     req.session.user = {
         first_name: req.user.first_name,
         last_name: req.user.last_name,
@@ -32,6 +34,10 @@ async function failRegister (req,res){
     res.send({ error: "Failed" })
 }
 async function logoutUser (req,res){
+    if (req.user) {
+        req.user.last_connection = new Date();
+        await req.user.save();
+    }
     req.session.destroy((err) => {
         if (err) return res.status(500).send('Error al cerrar sesión');
         res.redirect('/login');

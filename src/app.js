@@ -7,6 +7,7 @@ const Server = require("socket.io");
 const passport = require("passport");
 const config = require ("./config/config.js")
 const initializePassport = require ("./config/passport.config.js")
+const usersRouter = require ("./routes/users.router.js")
 const sessionRouter = require("./routes/api/session.router.js");
 const productsRouter = require("./routes/products.router.js");
 const cartsRouter = require("./routes/carts.router.js");
@@ -78,7 +79,7 @@ app.use(express.static(__dirname + "/public"));
 
 
 
-
+app.use('/api/users', usersRouter) 
 app.use('/products', productsRouter)
 app.use('/api/carts', cartsRouter)
 app.use('/api/sessions', sessionRouter)

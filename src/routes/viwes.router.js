@@ -42,15 +42,7 @@ router.get('/register', notAprob, (req, res) => {
   res.render('register');
 });
 
-router.get("/current", (req, res) => {
-  if (req.isAuthenticated()) {
-    const user = new UserDTO(req.user);
-    console.log(user)
-    res.render("profile", { user });
-} else {
-    res.redirect("/login")
-  }
-}); 
+
 
 router.get("/loggerTest", async(req,res,)=>{
   
