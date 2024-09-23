@@ -1,4 +1,5 @@
 const express = require("express");
+const methodOverride = require('method-override');
 const session = require("express-session");
 const handlebars = require ("express-handlebars");
 const mongoose = require ("mongoose");
@@ -39,6 +40,7 @@ const swaggerOptions ={
     apis:['src/docs/**/*.yaml']
 };
 const specs = swaggerJsdoc(swaggerOptions);
+app.use(methodOverride('_method'));
 app.use('/apidocs',SwaggerUiExpress.serve,SwaggerUiExpress.setup(specs))
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))

@@ -1,0 +1,12 @@
+<div>
+        <h2>{{result.title}} {{result.description}}</h2>
+        <img src="{{result.thumbnail}}" width="100" height="100" alt="">
+        <p>${{result.price}}- - -ID:{{result.id}}</p>
+        <form action="/api/carts/{{user.cart}}/product/{{result._id}}" method="POST">
+            <button type="submit" >agregar al carrito</button> 
+        </form>
+        <form action="/products/delete/{{result._id}}" method="POST">
+            <button type="submit" class="deleteProduct">Eliminar Producto(SOLO ADMIN)</button>
+        </form>
+       
+    </div>

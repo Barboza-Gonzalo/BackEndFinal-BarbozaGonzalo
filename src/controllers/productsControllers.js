@@ -2,6 +2,9 @@ const productsModel = require ("../DAO/mongo/models/products.model.js");
 const { CustomError } = require("../services/CustomError.js");
 const  {EErrors}  = require("../services/errorEnum.js");
 const { generateProductErrorInfo } = require("../services/info.js");
+const nodemailer = require("nodemailer");
+const { transport } = require("winston");
+const config  = require("../config/config.js");
 
 
 
@@ -50,11 +53,15 @@ async function   getProducts(req, res) {
             hasPrevPage: page > 1,
             hasNextPage: page < totalPages,
             prevLink: page > 1 ? `/products?limit=${limit}&page=${page - 1}&sort=${sort || ''}&query=${query || ''}` : null,
-            nextLink: page < totalPages ? `/products?limit=${limit}&page=${page + 1}&sort=${sort || ''}&query=${query || ''}` : null
+            nextLink: page < totalPages ? `/products?limit=${limit}&page=${page + 1}&sort=${sort || ''}&query=${query || ''}` : null,
+            
         };
         const user = req.session.user
+    
+        
+        
 
-        res.render("products" ,{ response , user});
+        res.render("products" ,{ response , user });
     } catch (error) {
         console.error("Error fetching products:", error);
         res.status(500).json({ status: "error", message: "Internal server error" });
@@ -66,8 +73,8 @@ async function getProductsById (req,res){
         const {pid} = req.params;
         
         const result = await productsModel.findById({_id:pid});
-        res.send({ result: "success", payload: result })
-        
+        const user = req.session.user
+        res.render("product", { result ,user});
 
     }catch(error){
         
@@ -102,10 +109,11 @@ async function createProduct(req, res, next) {
             code,
             stock,
             status,
-            category
+            category,
+            owner: req.user._id
         });
 
-        res.send({ result: "success", payload: result });
+        res.redirect("/products");
     } catch (error) {
         next(error)
     }
@@ -126,10 +134,32 @@ async function updateProduct (req,res){
 
 
 async function deleteProduct (req,res){
+    const transport = nodemailer.createTransport({
+        service:"gmail",
+        auth:{
+            user: config.user ,
+            pass: config.pass
+        }
+    })
     try{
         let {pid} = req.params
-        let result = await productsModel.deleteOne({ _id:pid });
-        res.send({ result: "success", payload: result })
+        let product = await productsModel.findById({ _id:pid }).populate("owner");
+        const owner = product.owner;
+        if (owner && owner.role === "premium"){
+            await transport.sendMail({
+                from: "gonzaloagutinbarboza@gmail.com",
+                to: owner.email,
+                subject : "Eliminacion de Producto ",
+                html:`
+                <div>
+                <h1 >
+                Tu producto    <h2>${product.title}</h2>   ha sido eliminado del sistema.
+                </h1>         
+                </div>`
+            })}
+            await productsModel.deleteOne({ _id: pid });
+        
+        res.redirect("/products")
         
     }catch(error){
         res.send("producto inexistente")
@@ -137,8 +167,20 @@ async function deleteProduct (req,res){
 }
 
 
+async function mockingProducts(req,res) {
+    let products =[]
+    for(let  i=0;i<100;i++){
+    productsModel.create(generateProductFaker())
+    }
+    res.send({status:"success" , payload:products})
+}
+    
+
+
+
 
 module.exports = {
+    mockingProducts,
     getProducts ,
     getProductsById,
     createProduct,

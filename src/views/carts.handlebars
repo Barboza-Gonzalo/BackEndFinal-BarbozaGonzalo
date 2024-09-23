@@ -4,9 +4,16 @@
     <div>
         <h2>{{this.producId.title}} {{this.productId.description}}</h2>
         <img src="{{this.productId.thumbnail}}" width="100" height="100" alt="">
-        <p>${{this.productId.price}}- - -ID:{{this.productId.id}}</p>
+        <p>${{this.productId.price}}- - -ID:{{this.productId._id}}</p>
         <p>Cantidad: {{this.quantity}}</p>
+       
     </div>
+     <form action="/api/carts/{{../cart._id}}/vproduct/{{this.productId._id}}" method="POST">
+            <button type="submit" >Eliminar del Carrito</button>
+        </form>
     <br />
     {{/each}}
+     <form action="/api/carts/{{cart._id}}/purchase" method="GET">
+            <button type="submit" >Finalizar Compra</button>
+        </form>
 </div>

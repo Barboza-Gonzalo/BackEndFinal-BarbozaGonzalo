@@ -14,7 +14,7 @@ const productsSchema = new mongoose.Schema({
     stock: {type: Number , required: true },
     status: {type: Boolean , required: true , },
     category: {type: String , required: true , max:150},
-    
+    owner:{type:mongoose.Schema.Types.ObjectId, ref:"Users"}
 })
 
 

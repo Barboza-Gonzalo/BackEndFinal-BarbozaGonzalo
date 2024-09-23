@@ -4,13 +4,15 @@ const ticketModel = require("../DAO/mongo/models/ticket.model.js");
 const { addProductCartError } = require("../services/info.js");
 const  {EErrors}  = require("../services/errorEnum.js");
 const { CustomError } = require("../services/CustomError.js");
+const nodemailer = require("nodemailer");
+const { transport } = require("winston");
+const config  = require("../config/config.js");
 
 
 async function getCartById (req,res) {
     try{
         let {cid} = req.params
         const cart = await cartsModel.findById(cid).populate('products.productId')
-        console.log(cart)
         res.render("carts", {cart} )
     
 
@@ -63,7 +65,7 @@ async function addProdToCart(req, res, next) {
 
         await cart.save();
 
-        res.send({ result: "success", message: "Producto agregado al carrito correctamente", payload: cart });
+        res.redirect(`/products`);
     } catch (error) {
         next(error);
     }
@@ -95,7 +97,7 @@ async function deleteProductInCart(req,res,next){
         }        
         cart.products.splice(productIndex, 1);
         await cart.save();
-        res.send({ result: "success", message: "Producto eliminado del carrito correctamente", payload: cart });
+        res.redirect(`/api/carts/${cid}`);
     } catch (error) {
         next(error)
     }
@@ -162,8 +164,15 @@ async function updateProductInCart(req,res,next){
 
 
 async function createTicket(req, res) {
+    const transport = nodemailer.createTransport({
+        service:"gmail",
+        auth:{
+            user: config.user ,
+            pass: config.pass
+        }
+    })
     try {
-        console.log("Session User:", req.session.user)
+        
         const userId = req.session.user; 
         const userEmail = req.session.user.email; 
         const cart = await cartsModel.findOne({ _id: req.session.user.cart }).populate("products.productId");
@@ -188,8 +197,8 @@ async function createTicket(req, res) {
                 productsNotProcessed.push(product._id); 
             }
         }
-
-        if (totalAmount > 0) {
+        if(totalAmount===0){return res.status(404).json({ status: "error", message: "Carrito no encontrado" })
+        }
             const newTicket = new ticketModel({
                 code: new Date().getTime().toString(), 
                 amount: totalAmount,
@@ -197,17 +206,29 @@ async function createTicket(req, res) {
             });
 
             await newTicket.save();
-        }
 
+  
+        
+        const ticketHtml = `
+        <div>
+            <h1>Gracias por tu compra</h1>
+            <p><strong>Ticket Code:</strong> ${newTicket.code}</p>
+            <p><strong>Comprador:</strong> ${userEmail}</p>
+            <p><strong>Monto total:</strong> $${totalAmount}</p>
+
+        </div>
+    `;
         
         cart.products = cart.products.filter(item => productsNotProcessed.includes(item.productId._id));
         await cart.save();
+        await transport.sendMail({
+            from: "gonzaloagutinbarboza@gmail.com",
+            to: userEmail,
+            subject : "Compra Finalizada ",
+            html:ticketHtml
+        })
 
-        res.json({
-            status: "success",
-            message: "Compra procesada",
-            productsNotProcessed,
-        });
+        res.redirect(`/products`);
     } catch (error) {
         console.error("Error processing purchase:", error);
         res.status(500).json({ status: "error", message: "Error interno del servidor" });
