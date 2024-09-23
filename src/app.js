@@ -26,7 +26,7 @@ const ProductManager = require("./DAO/fileSystem/productManager.js")
 const manager = new ProductManager */
 
 const app = express()
-const PORT = config.port
+const PORT = config.port || 8080;
 const environment = config.environment
 const httpServer = app.listen(PORT, () => {console.log(`Servidor corriendo en puerto: ${PORT}`)})
 const swaggerOptions ={

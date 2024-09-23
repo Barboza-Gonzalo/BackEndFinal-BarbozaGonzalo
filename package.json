@@ -6,6 +6,7 @@
   "type": "commonjs",
   "scripts": {
     "start": "node  src/app.js",
+    "dev":"nodemon src/app.js",
     "test": "mocha test/Products.test.js"
   },
   "keywords": [],
@@ -28,6 +29,7 @@
     "mongoose-paginate-v2": "^1.8.1",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.14",
+    "nodemon": "^3.1.7",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
     "passport-local": "^1.0.0",
